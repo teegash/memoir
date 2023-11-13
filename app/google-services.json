@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742142037287",
+    "project_id": "memoir-8cb5b",
+    "storage_bucket": "memoir-8cb5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742142037287:android:24caaa169a5d92ee856d02",
+        "android_client_info": {
+          "package_name": "com.nate.memoir"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALEuNzaqWTWMPEVfR3QlGWNOkRcCS-Zi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
