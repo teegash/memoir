@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.nate.memoir.R
 import com.nate.memoir.navigation.ROUTE_HOME
+import com.nate.memoir.navigation.ROUTE_LOGIN
 import kotlinx.coroutines.delay
 
 @Composable
@@ -38,7 +39,7 @@ fun SplashScreen(navController: NavController) {
                 })
         )
         delay(1000L)
-        navController.navigate(ROUTE_HOME) // change to login
+        navController.navigate(ROUTE_LOGIN) // change to login
     }
 
     // Image
