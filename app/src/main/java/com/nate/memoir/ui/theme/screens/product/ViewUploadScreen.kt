@@ -222,7 +222,7 @@ fun UploadItem(name:String, quantity:String, price:String, imageUrl:String, id:S
         initialValue = Redrib,
         targetValue = Orangeee,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = 2500, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )

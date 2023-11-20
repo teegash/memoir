@@ -1,5 +1,6 @@
 package com.nate.memoir.ui.theme.screens.register
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,8 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,6 +29,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +54,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.nate.memoir.R
 import com.nate.memoir.data.AuthViewModel
+import com.nate.memoir.data.rememberImeState
 import com.nate.memoir.navigation.ROUTE_LOGIN
 import com.nate.memoir.navigation.ROUTE_REGISTER
 import com.nate.memoir.ui.theme.BlueGray
@@ -60,6 +65,17 @@ import com.nate.memoir.ui.theme.unfocusedTextFieldText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = imeState.value){
+        if (imeState.value){
+            scrollState.animateScrollTo(scrollState.maxValue, tween(350))
+        }
+    }
+
+
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var pass by remember { mutableStateOf(TextFieldValue("")) }
     var confirmpass by remember { mutableStateOf(TextFieldValue("")) }
@@ -71,7 +87,7 @@ fun RegisterScreen(navController: NavHostController, modifier: Modifier = Modifi
     Surface {
         Column (modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)){
+            .background(Color.Black).verticalScroll(scrollState)){
 
             val uiColor = Color.White
 
@@ -104,7 +120,8 @@ fun RegisterScreen(navController: NavHostController, modifier: Modifier = Modifi
 
             Column (modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 30.dp)){
+                .padding(horizontal = 30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally){
 
                 TextField (
                     modifier = modifier,
@@ -177,6 +194,8 @@ fun RegisterScreen(navController: NavHostController, modifier: Modifier = Modifi
                     Text(text = "Register", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium))
 
                 }
+
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Box(modifier = Modifier
                     .fillMaxHeight(fraction = 0.8f)

@@ -1,5 +1,6 @@
 package com.nate.memoir.ui.theme.screens.product
 
+import android.widget.Space
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -89,6 +90,8 @@ fun ProductItem(name:String, quantity:String, price:String, id:String,
         }, colors = ButtonDefaults.buttonColors(Color.Black)) {
             Text(text = "Update", color = Color.White)
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
     }
 
 }

@@ -113,6 +113,8 @@ class productviewmodel(var navController: NavHostController,var context: Context
     }
 
     fun saveProductWithImage(productName:String, productQuantity:String, productPrice:String, filePath: Uri){
+
+
         var id = System.currentTimeMillis().toString()
         var storageReference = FirebaseStorage.getInstance().getReference().child("Uploads/$id")
         progress.show()
