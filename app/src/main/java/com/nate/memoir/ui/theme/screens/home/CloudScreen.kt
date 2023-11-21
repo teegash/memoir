@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -57,22 +58,22 @@ fun CloudDance(navController: NavHostController) {
 
     Column (
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .background(Color.Black),
-        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
+//        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ){
 
         Image(
             painter = painterResource(R.drawable.clouddd),
             contentDescription = "image",
-            contentScale = ContentScale.Crop,
+//            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .height(55.dp)
-                .width(150.dp)
+                .fillMaxWidth(),
+            alignment = Alignment.Center
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+//        Spacer(modifier = Modifier.height(20.dp))
 //        Spacer(modifier = Modifier.height(20.dp))
 //        Spacer(modifier = Modifier.height(20.dp))
 
@@ -94,6 +95,9 @@ fun CloudDance(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
         Spacer(modifier = Modifier.height(20.dp))
         Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+
 
 
 

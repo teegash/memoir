@@ -62,6 +62,7 @@ import com.google.firebase.database.ValueEventListener
 import com.nate.memoir.R
 import com.nate.memoir.data.productviewmodel
 import com.nate.memoir.models.Product
+import com.nate.memoir.models.Upload
 import com.nate.memoir.navigation.ROUTE_VIEW_PRODUCT
 import com.nate.memoir.navigation.ROUTE_VIEW_UPLOAD
 import com.nate.memoir.ui.theme.BlueGray
@@ -85,15 +86,17 @@ fun UpdateProductsScreen(navController: NavHostController, id: String) {
         var name by remember { mutableStateOf("") }
         var quantity by remember { mutableStateOf("") }
         var price by remember { mutableStateOf("") }
+        var imageUrl by remember { mutableStateOf("") }
 
         var currentDataRef = FirebaseDatabase.getInstance().getReference()
             .child("Uploads/$id")
         currentDataRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var product = snapshot.getValue(Product::class.java)
+                var product = snapshot.getValue(Upload::class.java)
                 name = product!!.name
                 quantity = product!!.quantity
                 price = product!!.price
+                imageUrl = product!!.imageUrl
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -137,8 +140,110 @@ fun UpdateProductsScreen(navController: NavHostController, id: String) {
 
 
 
-        ImagePickerU(Modifier,context, navController, productName.text.trim(), productQuantity.text.trim(), productPrice.text.trim(), id)
+//        ImagePickerU(Modifier,context, navController, productName.text.trim(), productQuantity.text.trim(), productPrice.text.trim(), id)
 
+        var hasImage by remember { mutableStateOf(false) }
+        var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+
+
+
+
+        val imagePicker = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                hasImage = uri != null
+                imageUri = uri
+            }
+        )
+
+        Column( horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(0.70f)
+                    .padding(6.dp)
+                    .background(Color.Black).clickable { imagePicker.launch("image/*") },
+                shape = RoundedCornerShape(15.dp),
+
+                ) {
+
+//                Box(
+//                    modifier = Modifier
+//                        .height(160.dp)
+//                        .fillMaxSize()
+//                        .background(Color.Black)
+//                ) {
+//
+//                    if (hasImage && imageUri != null) {
+//                        val bitmap =
+//                            MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+//                        Image(
+//                            bitmap = bitmap.asImageBitmap(),
+//                            contentDescription = "Selected image",
+//                            contentScale = ContentScale.Crop,
+//                            modifier = Modifier
+//                                .size(232.dp)
+//                        )
+//                    } else Image(
+//                        painterResource(id = R.drawable.photomemoir_24),
+//                        contentDescription = null,
+//                        modifier = Modifier.size(232.dp)
+//                    )
+//                }
+            }
+        }
+
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 15.dp), horizontalAlignment = Alignment.CenterHorizontally,) {
+
+
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+
+            Button(
+                modifier = Modifier
+                    .width(270.dp)
+                    .height(40.dp),
+                onClick = { val productRepository = productviewmodel(navController, context)
+                    var productNameStr = ""
+                    var productQuantityStr = ""
+                    var productPriceStr = ""
+                    var imageUrlStr = ""
+
+
+
+
+                    if (productName.text.trim().isNotEmpty()) {
+                        productNameStr = productName.text.trim()
+                    }
+                    if (productQuantity.text.trim().isNotEmpty()) {
+                        productQuantityStr = productQuantity.text.trim()
+                    }
+                    if (productPrice.text.trim().isNotEmpty()) {
+                        productPriceStr = productPrice.text.trim()
+                    }
+                    if (imageUrl.trim().isNotEmpty()) {
+                        imageUrlStr = imageUrl.trim()
+                    }
+
+                    productRepository.updateProduct(productNameStr, productQuantityStr, productPriceStr, imageUrlStr, id)
+                    navController.navigate(ROUTE_VIEW_UPLOAD) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = BlueGray,
+                    contentColor = Color.White
+                ), shape = RoundedCornerShape(size = 4.dp)) {
+
+                Text(text = "Update Memoir", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium))
+
+            }
+
+        }
 
     }
 }
@@ -227,33 +332,43 @@ fun ImagePickerU(modifier: Modifier = Modifier, context: Context, navController:
 
 
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 15.dp), horizontalAlignment = Alignment.CenterHorizontally,) {
-
-
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-
-            Button(
-                modifier = Modifier
-                    .width(270.dp)
-                    .height(40.dp),
-                onClick = { var productRepository = productviewmodel(navController,context)
-                    productRepository.saveProductWithImage(name, quantity, price,imageUri!!)
-                    navController.navigate(ROUTE_VIEW_UPLOAD) },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = BlueGray,
-                    contentColor = Color.White
-                ), shape = RoundedCornerShape(size = 4.dp)) {
-
-                Text(text = "Update Memoir", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium))
-
-            }
-
-        }
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(all = 15.dp), horizontalAlignment = Alignment.CenterHorizontally,) {
+//
+//
+//
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//
+//            Button(
+//                modifier = Modifier
+//                    .width(270.dp)
+//                    .height(40.dp),
+//                onClick = { val productRepository = productviewmodel(navController, context)
+//            var updatedProduct = mutableMapOf<String, Any>()
+//            if (productName.text.trim().isNotEmpty()) {
+//                updatedProduct["productName"] = productName.text.trim()
+//            }
+//            if (productQuantity.text.trim().isNotEmpty()) {
+//                updatedProduct["productQuantity"] = productQuantity.text.trim()
+//            }
+//            if (productPrice.text.trim().isNotEmpty()) {
+//                updatedProduct["productPrice"] = productPrice.text.trim()
+//            }
+//            productRepository.updateProduct(updatedProduct,id)
+//            navController.navigate(ROUTE_VIEW_PRODUCT) },
+//                colors = ButtonDefaults.buttonColors(
+//                    containerColor = BlueGray,
+//                    contentColor = Color.White
+//                ), shape = RoundedCornerShape(size = 4.dp)) {
+//
+//                Text(text = "Update Memoir", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium))
+//
+//            }
+//
+//        }
     }
 }
 
