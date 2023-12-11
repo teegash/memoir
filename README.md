@@ -7,15 +7,10 @@
 
 <p float="left">
   <img src="app/src/main/regpg.jpg" height="300"  />
-  <img src="" width="10" /> 
   <img src="app/src/main/loginpg.jpg" height="300" />
-  <img src="" width="10" /> 
   <img src="app/src/main/homepg.jpg" height="300" />
-  <img src="" width="10" /> 
   <img src="app/src/main/addpg.jpg" height="300" />
-  <img src="" width="10" /> 
   <img src="app/src/main/viewpg.jpg" height="300" />
-
 </p>
 
 ## Description
